@@ -1,0 +1,63 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from "@/components/ui/table";
+
+export default function ChurchDashboard() {
+  const [entries, setEntries] = useState([]);
+  const [form, setForm] = useState({ name: "", email: "", commitment: "", leader: "", referral: "" });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    setEntries([...entries, form]);
+    setForm({ name: "", email: "", commitment: "", leader: "", referral: "" });
+  };
+
+  return (
+    <div className="p-6 space-y-6">
+      <Card>
+        <CardContent className="p-4 space-y-4">
+          <h2 className="text-xl font-bold">Add New Entry</h2>
+          <Input name="name" placeholder="Name" value={form.name} onChange={handleChange} />
+          <Input name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+          <Input name="commitment" placeholder="Commitment Level" value={form.commitment} onChange={handleChange} />
+          <Input name="leader" placeholder="New Leader? (Yes/No)" value={form.leader} onChange={handleChange} />
+          <Input name="referral" placeholder="Referral Source" value={form.referral} onChange={handleChange} />
+          <Button onClick={handleSubmit}>Add Entry</Button>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardContent className="p-4">
+          <h2 className="text-xl font-bold">Entries</h2>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Commitment</TableHead>
+                <TableHead>New Leader</TableHead>
+                <TableHead>Referral</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {entries.map((entry, index) => (
+                <TableRow key={index}>
+                  <TableCell>{entry.name}</TableCell>
+                  <TableCell>{entry.email}</TableCell>
+                  <TableCell>{entry.commitment}</TableCell>
+                  <TableCell>{entry.leader}</TableCell>
+                  <TableCell>{entry.referral}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
